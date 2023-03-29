@@ -33,7 +33,7 @@ app.delete('/livros/:id', (req, res) => {
     let {id} = req.params
     const index = getBookIndex(id)
     books.splice(index, 1)
-    res.status(201).send('Livro deletado com sucesso!');
+    res.status(201).send(`Livro ${id} deletado com sucesso!`);
 })
 
 function getBookIndex(id){
