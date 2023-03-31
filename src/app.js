@@ -1,5 +1,14 @@
 import express from 'express';
 import {books} from './assets/books.js';
+import db from './config/dbConnect.js';
+
+//testa conexão
+db.on("error", console.log.bind(console, 'Erro de conexão...'));
+//abre conexão
+db.once("open", () => {
+    console.log("Sucesso ao conectar DB!")
+});
+
 const app = express();
 
 app.use(express.json());
