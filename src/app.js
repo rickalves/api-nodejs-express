@@ -1,6 +1,6 @@
 import express from 'express';
-import {books} from './assets/books.js';
 import db from './config/dbConnect.js';
+import routes from './routes/index.js';
 
 //testa conexão
 db.on("error", console.log.bind(console, 'Erro de conexão...'));
@@ -10,44 +10,35 @@ db.once("open", () => {
 });
 
 const app = express();
+routes(app);
 
-app.use(express.json());
+// app.get('/livros/:id', (req, res) => {
+//     const index = getBookIndex(req.params.id)
+//     res.json(books.at(index))
+// })
 
-app.get('/', (req, res) => {
-  res.status(200).send('Bem vindo ao App!');
-});
+// app.post('/livros', (req, res) => {
+//     books.push(req.body);
+//     res.status(201).send('Livro cadastrado com sucesso!');
+// })
 
-app.get('/livros', (req, res) => {
-    res.status(200).json(books);
-})
+// app.put('/livros/:id', (req, res) => {
+//     let {id} = req.params
+//     const index = getBookIndex(id)
+//     books.at(index).titulo = req.body.titulo
+//     res.status(201).send('Livro atualizado com sucesso!');
+// })
 
-app.get('/livros/:id', (req, res) => {
-    const index = getBookIndex(req.params.id)
-    res.json(books.at(index))
-})
+// app.delete('/livros/:id', (req, res) => {
+//     let {id} = req.params
+//     const index = getBookIndex(id)
+//     books.splice(index, 1)
+//     res.status(201).send(`Livro ${id} deletado com sucesso!`);
+// })
 
-app.post('/livros', (req, res) => {
-    books.push(req.body);
-    res.status(201).send('Livro cadastrado com sucesso!');
-})
-
-app.put('/livros/:id', (req, res) => {
-    let {id} = req.params
-    const index = getBookIndex(id)
-    books.at(index).titulo = req.body.titulo
-    res.status(201).send('Livro atualizado com sucesso!');
-})
-
-app.delete('/livros/:id', (req, res) => {
-    let {id} = req.params
-    const index = getBookIndex(id)
-    books.splice(index, 1)
-    res.status(201).send(`Livro ${id} deletado com sucesso!`);
-})
-
-function getBookIndex(id){
-    return books.findIndex(book => book.id == id);
-}
+// function getBookIndex(id){
+//     return books.findIndex(book => book.id == id);
+// }
 
 export default app;
 
