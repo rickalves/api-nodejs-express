@@ -1,4 +1,14 @@
 export const books = [
-    {id:1, "titulo": "Senhor dos Aneis"},
-    {id:2, "titulo": "O Hobbit"}
+    {
+        "titulo": "O peregrino",
+        "autor": "John Bunyan",
+        "editora": "Principis",
+        "numeroPaginas": 176
+    },
+    {
+        "titulo": "A Arte da Guerra",
+        "autor": "Sun Tzu",
+        "editora": "Novo Século",
+        "numeroPaginas": 158
+    }
 ]
