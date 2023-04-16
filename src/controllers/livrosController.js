@@ -3,16 +3,31 @@ import livros from "../models/Livro.js";
 class LivroController{
 
     static buscarLivros = (req, res) => {
-        livros.find((err, livros) => {
-            res.status(200).json(livros);
-        });
+        livros.find()
+            .populate('autor')
+            .exec((err, livros) => {
+                res.status(200).json(livros);
+            });
     }
 
     static buscarLivroPorId = (req, res) => {
         const {id} = req.params
-        livros.findById(id, (err, livro) => {
+        livros.findById(id)
+            .populate('autor', 'nome')
+            .exec((err, livro) => {
+                if(!err){
+                    res.status(200).json(livro);
+                }else{
+                    res.status(400).send({message: `${err.message} - Erro ao buscar.`})
+                }
+            });
+    }
+
+    static buscarLivroPorEdidora = (req, res) => {
+        const {editora} = req.query
+        livros.find({'editora': editora}, {}, (err, livros) => {
             if(!err){
-                res.status(200).json(livro);
+                res.status(200).json(livros);
             }else{
                 res.status(400).send({message: `${err.message} - Erro ao buscar.`})
             }
@@ -32,7 +47,6 @@ class LivroController{
 
     static atualizarLivro = (req, res) => {
         const {id} = req.params
-        const livro = buscaLivro(id)
         livros.findByIdAndUpdate(id, {$set: req.body}, (err) => {
             if(!err){
                 res.status(200).send({message: `Livro atualizado com sucesso!`})
